@@ -1,0 +1,2667 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التفقد في مسجد الإمام الشافعي - نظام الحلقات القرآنية</title>
+
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Tajawal:wght@300;400;500;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&family=Scheherazade+New:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- QR Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js">
+    </script>
+    <script src="https://unpkg.com/html5-qrcode@2.3.4/html5-qrcode.min.js">
+    </script>
+    <style>
+        :root {
+            --bg: #f5f0e8;
+            --surface: #ffffff;
+            --surface-alt: #faf7f2;
+            --gold: #b8963e;
+            --gold-light: #d4b96a;
+            --gold-dark: #8b6914;
+            --green: #1a7a3a;
+            --green-light: #2ecc71;
+            --red: #c0392b;
+            --red-light: #e74c3c;
+            --text: #2c2416;
+            --text-secondary: #6b5e48;
+            --text-light: #8a7a60;
+            --border: #e0d5c0;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.1);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-xs: 8px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(184, 150, 62, 0.2);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            --nav-height: 72px;
+            --header-height: auto;
+            --accent-gradient: linear-gradient(135deg, #b8963e 0%, #d4b96a 30%, #8b6914 70%, #6b4f10 100%);
+            --green-gradient: linear-gradient(135deg, #1a7a3a 0%, #2ecc71 100%);
+            --red-gradient: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+        }
+
+        .dark {
+            --bg: #1a1814;
+            --surface: #252320;
+            --surface-alt: #2a2824;
+            --gold: #d4b96a;
+            --gold-light: #e0cc8a;
+            --gold-dark: #b8963e;
+            --text: #e8e0d0;
+            --text-secondary: #b8a88a;
+            --text-light: #8a7a60;
+            --border: #3a3630;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
+            --glass-bg: rgba(37, 35, 32, 0.75);
+            --glass-border: rgba(184, 150, 62, 0.25);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background var(--transition), color var(--transition);
+            line-height: 1.7;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(ellipse at 15% 10%, rgba(184, 150, 62, 0.04) 0%, transparent 60%),
+                radial-gradient(ellipse at 85% 90%, rgba(26, 122, 58, 0.03) 0%, transparent 60%);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold);
+        }
+
+        /* ========== LOGIN SCREEN ========== */
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(160deg, #f5f0e8 0%, #ede4d4 30%, #f0e8d8 60%, #e8dcc8 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .dark .login-container {
+            background: linear-gradient(160deg, #1a1814 0%, #1f1c17 30%, #1a1814 60%, #141210 100%);
+        }
+        .login-container::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(184, 150, 62, 0.08) 0%, transparent 70%);
+            top: -100px;
+            right: -150px;
+            animation: floatBubble 12s ease-in-out infinite;
+        }
+        .login-container::after {
+            content: '';
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(26, 122, 58, 0.06) 0%, transparent 70%);
+            bottom: -80px;
+            left: -100px;
+            animation: floatBubble 15s ease-in-out infinite reverse;
+        }
+        @keyframes floatBubble {
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(30px, -40px) scale(1.05);
+            }
+            50% {
+                transform: translate(-20px, -20px) scale(0.95);
+            }
+            75% {
+                transform: translate(15px, 30px) scale(1.03);
+            }
+        }
+        .login-card {
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 40px 32px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            z-index: 1;
+            border: 1px solid var(--border);
+            animation: slideUp 0.6s ease-out;
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .login-icon {
+            font-size: 56px;
+            color: var(--gold);
+            margin-bottom: 12px;
+            display: inline-block;
+            animation: pulseIcon 3s ease-in-out infinite;
+        }
+        @keyframes pulseIcon {
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+        .login-header h2 {
+            font-family: 'Amiri', 'Scheherazade New', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+        .login-header p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 13px 16px;
+            border-radius: var(--radius-xs);
+            border: 2px solid var(--border);
+            font-family: inherit;
+            font-size: 15px;
+            background: var(--surface-alt);
+            color: var(--text);
+            transition: all var(--transition);
+            outline: none;
+        }
+        .form-group input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(184, 150, 62, 0.1);
+            background: var(--surface);
+        }
+        .role-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+        .role-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: var(--radius-xs);
+            border: 2px solid var(--border);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            background: var(--surface-alt);
+            color: var(--text-secondary);
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .role-btn i {
+            font-size: 16px;
+        }
+        .role-btn.active {
+            background: var(--accent-gradient);
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 16px rgba(184, 150, 62, 0.35);
+            transform: translateY(-2px);
+        }
+        .role-btn:hover:not(.active) {
+            border-color: var(--gold-light);
+            background: var(--surface);
+        }
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: var(--radius-xs);
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 17px;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            color: #fff;
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 6px 20px rgba(184, 150, 62, 0.3);
+            letter-spacing: 0.5px;
+        }
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(184, 150, 62, 0.4);
+        }
+        .login-btn:active {
+            transform: translateY(-1px);
+        }
+        .login-footer {
+            text-align: center;
+            margin-top: 24px;
+        }
+        .login-footer small {
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        /* ========== MAIN APP ========== */
+        #appMain {
+            max-width: 600px;
+            margin: 0 auto;
+            padding-bottom: calc(var(--nav-height) + 20px);
+            min-height: 100vh;
+        }
+        .glass-header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 16px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--glass-shadow);
+            border-radius: 0 0 20px 20px;
+            transition: all var(--transition);
+        }
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: var(--accent-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 20px;
+            box-shadow: 0 4px 12px rgba(184, 150, 62, 0.3);
+        }
+        .logo-text strong {
+            display: block;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        .logo-text small {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .header-actions {
+            display: flex;
+            gap: 6px;
+        }
+        .icon-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 16px;
+            transition: all var(--transition);
+            position: relative;
+        }
+        .icon-btn:hover {
+            background: var(--gold);
+            color: #fff;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(184, 150, 62, 0.3);
+        }
+        .badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--red);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+        .date-card {
+            background: var(--surface);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid var(--border);
+            transition: all var(--transition);
+            margin-bottom: 10px;
+        }
+        .date-card:hover {
+            border-color: var(--gold);
+            box-shadow: var(--shadow);
+            transform: translateY(-1px);
+        }
+        .date-main {
+            font-weight: 700;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .date-main i {
+            color: var(--gold);
+        }
+        .date-details {
+            display: flex;
+            gap: 14px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+        .date-details span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .date-arrow {
+            color: var(--text-light);
+            font-size: 12px;
+        }
+        .stats-mini {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .stat-chip {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all var(--transition);
+        }
+        .stat-chip.present {
+            color: var(--green);
+            border-color: rgba(26, 122, 58, 0.3);
+            background: rgba(26, 122, 58, 0.05);
+        }
+        .stat-chip.absent {
+            color: var(--red);
+            border-color: rgba(192, 57, 43, 0.3);
+            background: rgba(192, 57, 43, 0.05);
+        }
+        .stat-chip i {
+            font-size: 10px;
+        }
+
+        /* ========== CONTAINER & SECTIONS ========== */
+        .container {
+            padding: 16px;
+        }
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+        .section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ========== CARDS ========== */
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 14px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            transition: all var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-title i {
+            color: var(--gold);
+            font-size: 20px;
+        }
+        .card-badge {
+            background: var(--accent-gradient);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text);
+        }
+        .section-title i {
+            color: var(--gold);
+        }
+
+        /* ========== BUTTONS ========== */
+        .btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.3px;
+        }
+        .btn-primary {
+            background: var(--accent-gradient);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(184, 150, 62, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(184, 150, 62, 0.4);
+        }
+        .btn-green {
+            background: var(--green-gradient);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(26, 122, 58, 0.3);
+        }
+        .btn-red {
+            background: var(--red-gradient);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(192, 57, 43, 0.3);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+        }
+        .btn-outline:hover {
+            background: var(--gold);
+            color: #fff;
+        }
+        .btn-sm {
+            padding: 6px 14px;
+            font-size: 12px;
+            border-radius: 20px;
+        }
+        .btn-xs {
+            padding: 4px 10px;
+            font-size: 11px;
+            border-radius: 15px;
+        }
+        .btn-icon-only {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all var(--transition);
+        }
+        .btn-icon-only:hover {
+            background: var(--gold);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        /* ========== STUDENT LIST ========== */
+        .student-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: var(--surface-alt);
+            border-radius: var(--radius-sm);
+            margin-bottom: 8px;
+            border: 1px solid var(--border);
+            transition: all var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+        .student-item:hover {
+            border-color: var(--gold-light);
+            box-shadow: var(--shadow);
+            transform: translateX(-3px);
+        }
+        .student-avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            color: #fff;
+            position: relative;
+        }
+        .student-avatar.ring-1 {
+            background: linear-gradient(135deg, #b8963e, #d4b96a);
+        }
+        .student-avatar.ring-2 {
+            background: linear-gradient(135deg, #1a7a3a, #2ecc71);
+        }
+        .student-avatar.ring-3 {
+            background: linear-gradient(135deg, #2980b9, #3498db);
+        }
+        .student-avatar.ring-4 {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+        }
+        .status-dot {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+        .status-dot.present {
+            background: var(--green-light);
+        }
+        .status-dot.absent {
+            background: var(--red-light);
+        }
+        .status-dot.late {
+            background: #f39c12;
+        }
+        .student-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .student-name {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text);
+        }
+        .student-detail {
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .student-detail span {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+        .student-actions {
+            display: flex;
+            gap: 4px;
+        }
+
+        /* ========== ATTENDANCE TOGGLE ========== */
+        .attendance-toggle {
+            display: flex;
+            gap: 6px;
+        }
+        .att-btn {
+            padding: 7px 14px;
+            border-radius: 20px;
+            border: 2px solid var(--border);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 600;
+            background: var(--surface-alt);
+            color: var(--text-secondary);
+            transition: all var(--transition);
+            white-space: nowrap;
+        }
+        .att-btn.present-active {
+            background: #1a7a3a;
+            color: #fff;
+            border-color: #1a7a3a;
+        }
+        .att-btn.absent-active {
+            background: #c0392b;
+            color: #fff;
+            border-color: #c0392b;
+        }
+        .att-btn.late-active {
+            background: #f39c12;
+            color: #fff;
+            border-color: #f39c12;
+        }
+        .att-btn:hover:not(.present-active):not(.absent-active):not(.late-active) {
+            border-color: var(--gold-light);
+        }
+
+        /* ========== PROGRESS BAR ========== */
+        .progress-wrap {
+            margin: 8px 0;
+        }
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+        .progress-bar {
+            height: 8px;
+            border-radius: 10px;
+            background: var(--border);
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.6s ease-out;
+        }
+        .progress-fill.gold {
+            background: var(--accent-gradient);
+        }
+        .progress-fill.green {
+            background: var(--green-gradient);
+        }
+
+        /* ========== BOTTOM NAV ========== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 600px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 8px 10px;
+            padding-bottom: max(8px, env(safe-area-inset-bottom));
+            z-index: 100;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all var(--transition);
+            color: var(--text-light);
+            font-size: 11px;
+            font-weight: 500;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+            position: relative;
+        }
+        .nav-item i {
+            font-size: 20px;
+            transition: all var(--transition);
+        }
+        .nav-item.active {
+            color: var(--gold);
+            font-weight: 700;
+        }
+        .nav-item.active i {
+            transform: scale(1.15);
+        }
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 30px;
+            height: 3px;
+            border-radius: 0 0 4px 4px;
+            background: var(--accent-gradient);
+        }
+        .nav-item:hover {
+            color: var(--gold);
+        }
+        .nav-item .nav-badge {
+            position: absolute;
+            top: 2px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--red);
+        }
+
+        /* ========== MODAL ========== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 200;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+        .modal-sheet {
+            background: var(--surface);
+            width: 100%;
+            max-width: 600px;
+            max-height: 85vh;
+            border-radius: 24px 24px 0 0;
+            padding: 24px 20px;
+            overflow-y: auto;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
+            animation: slideUpModal 0.35s ease-out;
+        }
+        @keyframes slideUpModal {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+        .modal-handle {
+            width: 40px;
+            height: 5px;
+            border-radius: 5px;
+            background: var(--border);
+            margin: 0 auto 16px;
+        }
+        .modal-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .modal-header-row h3 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--surface-alt);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition);
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+        .modal-close:hover {
+            background: var(--red);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        /* ========== TOAST ========== */
+        .toast-item {
+            background: var(--surface);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            margin-bottom: 8px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            animation: toastIn 0.4s ease-out;
+            max-width: 380px;
+        }
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .toast-item.success {
+            border-right: 4px solid var(--green);
+        }
+        .toast-item.error {
+            border-right: 4px solid var(--red);
+        }
+        .toast-item.info {
+            border-right: 4px solid var(--gold);
+        }
+        #toastContainer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        /* ========== NOTIFICATION PANEL ========== */
+        .notification-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 380px;
+            height: 100vh;
+            background: var(--surface);
+            z-index: 300;
+            box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15);
+            animation: slideInRight 0.3s ease-out;
+            display: flex;
+            flex-direction: column;
+        }
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+        .notif-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .notif-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .notif-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+        }
+        .notif-item {
+            padding: 12px;
+            border-radius: var(--radius-xs);
+            margin-bottom: 8px;
+            background: var(--surface-alt);
+            border: 1px solid var(--border);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+        .notif-item:hover {
+            border-color: var(--gold-light);
+        }
+        .notif-item .notif-time {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        /* ========== QR DISPLAY ========== */
+        .qr-display {
+            text-align: center;
+            padding: 20px;
+        }
+        .qr-display canvas,
+        .qr-display img {
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        #qr-reader {
+            width: 100%;
+            max-width: 350px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        #qr-reader video {
+            border-radius: 12px;
+        }
+
+        /* ========== CHART CONTAINER ========== */
+        .chart-container {
+            width: 100%;
+            height: 220px;
+            position: relative;
+            margin: 10px 0;
+        }
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            height: 180px;
+            padding: 0 10px;
+        }
+        .bar-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            height: 100%;
+            justify-content: flex-end;
+        }
+        .bar-fill {
+            width: 100%;
+            max-width: 50px;
+            border-radius: 8px 8px 0 0;
+            transition: height 0.6s ease-out;
+            position: relative;
+            cursor: pointer;
+            min-width: 24px;
+        }
+        .bar-fill.gold-bg {
+            background: var(--accent-gradient);
+        }
+        .bar-fill.green-bg {
+            background: var(--green-gradient);
+        }
+        .bar-fill.red-bg {
+            background: var(--red-gradient);
+        }
+        .bar-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-align: center;
+        }
+        .bar-value {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        /* ========== RING CARD ========== */
+        .ring-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            background: var(--surface-alt);
+            border-radius: var(--radius-sm);
+            margin-bottom: 8px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+        .ring-card:hover {
+            border-color: var(--gold-light);
+            box-shadow: var(--shadow);
+        }
+        .ring-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        /* ========== EMPTY STATE ========== */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-light);
+        }
+        .empty-state i {
+            font-size: 56px;
+            color: var(--border);
+            margin-bottom: 12px;
+        }
+        .empty-state p {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 400px) {
+            .login-card {
+                padding: 28px 18px;
+            }
+            .header-top {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .stats-mini {
+                gap: 4px;
+            }
+            .stat-chip {
+                font-size: 10px;
+                padding: 4px 10px;
+            }
+            .card {
+                padding: 14px;
+            }
+            .student-item {
+                padding: 10px 12px;
+                gap: 8px;
+            }
+        }
+
+        /* ========== SCANNER OVERLAY ========== */
+        .scanner-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 250;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .scanner-box {
+            width: 280px;
+            height: 280px;
+            border: 3px solid var(--gold);
+            border-radius: 20px;
+            position: relative;
+            animation: scannerPulse 2s ease-in-out infinite;
+        }
+        @keyframes scannerPulse {
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(184, 150, 62, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 50px rgba(184, 150, 62, 0.7);
+            }
+        }
+        .scanner-line {
+            position: absolute;
+            top: 0;
+            left: 5%;
+            width: 90%;
+            height: 2px;
+            background: var(--gold);
+            animation: scanLine 2.5s linear infinite;
+        }
+        @keyframes scanLine {
+            0% {
+                top: 5%;
+            }
+            50% {
+                top: 90%;
+            }
+            100% {
+                top: 5%;
+            }
+        }
+
+        /* Utils */
+        .text-center {
+            text-align: center;
+        }
+        .mt-2 {
+            margin-top: 8px;
+        }
+        .mt-3 {
+            margin-top: 12px;
+        }
+        .mt-4 {
+            margin-top: 16px;
+        }
+        .mb-2 {
+            margin-bottom: 8px;
+        }
+        .mb-3 {
+            margin-bottom: 12px;
+        }
+        .gap-2 {
+            gap: 8px;
+        }
+        .flex-wrap {
+            flex-wrap: wrap;
+        }
+        .d-flex {
+            display: flex;
+        }
+        .align-center {
+            align-items: center;
+        }
+        .justify-between {
+            justify-content: space-between;
+        }
+        .flex-1 {
+            flex: 1;
+        }
+        .w-100 {
+            width: 100%;
+        }
+        .color-gold {
+            color: var(--gold);
+        }
+        .color-green {
+            color: var(--green);
+        }
+        .color-red {
+            color: var(--red);
+        }
+        .font-sm {
+            font-size: 12px;
+        }
+        .font-bold {
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========== LOGIN SCREEN ========== -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <i class="fas fa-mosque login-icon"></i>
+                <h2>التفقد في مسجد الإمام الشافعي</h2>
+                <p>نظام إدارة الحلقات القرآنية المتكامل</p>
+            </div>
+            <div class="form-group">
+                <label>اسم المستخدم</label>
+                <input type="text" id="username" placeholder="أدخل اسم المستخدم" value="admin" autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label>كلمة المرور</label>
+                <input type="password" id="password" placeholder="أدخل كلمة المرور" value="123456" autocomplete="current-password">
+            </div>
+            <div class="role-selector">
+                <button class="role-btn active" id="teacherRoleBtn" onclick="selectRole('teacher')">
+                    <i class="fas fa-chalkboard-teacher"></i> أستاذ
+                </button>
+                <button class="role-btn" id="supervisorRoleBtn" onclick="selectRole('supervisor')">
+                    <i class="fas fa-binoculars"></i> موجه
+                </button>
+            </div>
+            <button class="login-btn" onclick="login()">
+                <span>تسجيل الدخول</span>
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="login-footer">
+                <small>مسجد الإمام الشافعي - إدارة الحلقات © 2026</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== MAIN APP ========== -->
+    <div id="appMain" style="display:none;">
+        <header class="glass-header">
+            <div class="header-top">
+                <div class="logo">
+                    <div class="logo-icon"><i class="fas fa-quran"></i></div>
+                    <div class="logo-text">
+                        <strong>مسجد الإمام الشافعي</strong>
+                        <small id="roleDisplay">أستاذ</small>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="icon-btn" onclick="toggleTheme()" title="تغيير المظهر">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="icon-btn" onclick="showNotificationPanel()" title="الإشعارات">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge" id="notifBadge" style="display:none;">0</span>
+                    </button>
+                    <button class="icon-btn" onclick="showQRCode()" title="الباركود الشخصي">
+                        <i class="fas fa-qrcode"></i>
+                    </button>
+                    <button class="icon-btn" onclick="logout()" title="تسجيل الخروج">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="date-card" onclick="openCalendar()">
+                <div class="date-info">
+                    <div class="date-main">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span id="dateMain"></span>
+                    </div>
+                    <div class="date-details">
+                        <span><i class="fas fa-moon"></i> <span id="hijriDate"></span></span>
+                        <span><i class="fas fa-calendar"></i> <span id="gregDate"></span></span>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-down date-arrow"></i>
+            </div>
+            <div class="stats-mini" id="headerStats"></div>
+        </header>
+
+        <main class="container">
+            <!-- Today Section -->
+            <div id="sec-today" class="section active"></div>
+            <!-- Students Section -->
+            <div id="sec-students" class="section"></div>
+            <!-- Reports Section -->
+            <div id="sec-reports" class="section"></div>
+            <!-- Supervisor Section -->
+            <div id="sec-supervisor" class="section"></div>
+            <!-- Settings Section -->
+            <div id="sec-settings" class="section"></div>
+        </main>
+
+        <nav class="bottom-nav" id="bottomNav"></nav>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
+
+    <!-- Notification Panel -->
+    <div id="notificationPanel" class="notification-panel" style="display:none;">
+        <div class="notif-header">
+            <h3>الإشعارات</h3>
+            <button class="modal-close" onclick="closeNotifications()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="notif-list" id="notifList"></div>
+    </div>
+
+    <!-- Modal Container -->
+    <div id="modalContainer"></div>
+
+    <!-- Scanner Overlay -->
+    <div id="scannerOverlay" class="scanner-overlay" style="display:none;">
+        <div style="text-align:center;color:#fff;margin-bottom:20px;">
+            <h3 style="color:#d4b96a;">مسح رمز الاستجابة السريعة</h3>
+            <p style="font-size:14px;opacity:0.8;">وجّه الكاميرا نحو الباركود</p>
+        </div>
+        <div class="scanner-box">
+            <div class="scanner-line"></div>
+        </div>
+        <div id="qr-reader" style="margin-top:16px;"></div>
+        <button class="btn btn-red mt-3" onclick="closeScanner()" style="margin-top:20px;">
+            <i class="fas fa-times"></i> إلغاء
+        </button>
+    </div>
+
+    <script>
+        // ==================== APP STATE ====================
+        const APP_KEY = 'quran_circles_app_v2';
+        let appState = {
+            currentUser: null,
+            role: 'teacher', // 'teacher' | 'supervisor'
+            theme: 'light',
+            selectedDate: new Date().toISOString().split('T')[0],
+            students: [],
+            rings: [
+                { id: 1, name: 'حلقة الفجر', teacher: 'الشيخ أحمد', color: '#b8963e', time: '05:30 صباحاً' },
+                { id: 2, name: 'حلقة العصر', teacher: 'الشيخ محمود', color: '#1a7a3a', time: '04:00 مساءً' },
+                { id: 3, name: 'حلقة المغرب', teacher: 'الشيخ يوسف', color: '#2980b9', time: '06:15 مساءً' },
+                { id: 4, name: 'حلقة العشاء', teacher: 'الشيخ عمر', color: '#8e44ad', time: '08:00 مساءً' },
+            ],
+            attendance: {}, // { 'YYYY-MM-DD': { studentId: 'present'|'absent'|'late' } }
+            memorization: {}, // { studentId: { surah: '...', fromAyah: 1, toAyah: 20, grade: 'ممتاز' } }
+            notifications: [],
+            calendarEvents: {},
+        };
+
+        // ==================== INITIALIZATION ====================
+        function initApp() {
+            loadState();
+            applyTheme();
+            if (appState.currentUser) {
+                showMainApp();
+            }
+            // Setup Enter key for login
+            document.getElementById('password').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') login();
+            });
+            document.getElementById('username').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') document.getElementById('password').focus();
+            });
+        }
+
+        function loadState() {
+            const saved = localStorage.getItem(APP_KEY);
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    appState = { ...appState, ...parsed };
+                } catch (e) { console.warn('Failed to parse saved state'); }
+            }
+            // Ensure default data exists
+            if (!appState.students || appState.students.length === 0) {
+                appState.students = generateDefaultStudents();
+            }
+            if (!appState.rings || appState.rings.length === 0) {
+                appState.rings = [
+                    { id: 1, name: 'حلقة الفجر', teacher: 'الشيخ أحمد', color: '#b8963e', time: '05:30 صباحاً' },
+                    { id: 2, name: 'حلقة العصر', teacher: 'الشيخ محمود', color: '#1a7a3a', time: '04:00 مساءً' },
+                    { id: 3, name: 'حلقة المغرب', teacher: 'الشيخ يوسف', color: '#2980b9', time: '06:15 مساءً' },
+                    { id: 4, name: 'حلقة العشاء', teacher: 'الشيخ عمر', color: '#8e44ad', time: '08:00 مساءً' },
+                ];
+            }
+            if (!appState.memorization || Object.keys(appState.memorization).length === 0) {
+                appState.memorization = {};
+                appState.students.forEach(s => {
+                    appState.memorization[s.id] = {
+                        surah: 'البقرة',
+                        fromAyah: 1,
+                        toAyah: Math.floor(Math.random() * 40) + 5,
+                        grade: ['ممتاز', 'جيد جداً', 'جيد', 'مقبول'][Math.floor(Math.random() * 4)],
+                        lastUpdate: new Date().toISOString().split('T')[0],
+                    };
+                });
+            }
+            saveState();
+        }
+
+        function saveState() {
+            localStorage.setItem(APP_KEY, JSON.stringify(appState));
+        }
+
+        function generateDefaultStudents() {
+            const names = [
+                'أحمد محمد علي', 'عمر خالد السيد', 'يوسف عبدالله', 'مصطفى إبراهيم',
+                'حمزة نور الدين', 'بلال عبدالرحمن', 'عمار صلاح', 'إسماعيل هشام',
+                'زيد أنس', 'خالد وليد', 'أنس مالك', 'عبدالعزيز سامر',
+                'محمد طارق', 'إبراهيم ناصر', 'سلمان فهد', 'راشد سعيد',
+                'نواف محمد', 'فيصل عبدالله', 'تركي منصور', 'سلطان خالد'
+            ];
+            const rings = [1, 2, 3, 4];
+            return names.map((name, i) => ({
+                id: i + 1,
+                name: name,
+                ringId: rings[i % 4],
+                age: Math.floor(Math.random() * 8) + 7,
+                joinedDate: '2024-0' + (Math.floor(Math.random() * 9) + 1) + '-01',
+                phone: '05' + Math.floor(Math.random() * 90000000 + 10000000),
+                parentName: 'والد ' + name.split(' ')[0],
+                notes: '',
+                active: true,
+            }));
+        }
+
+        // ==================== LOGIN ====================
+        function selectRole(role) {
+            appState.role = role;
+            document.getElementById('teacherRoleBtn').classList.toggle('active', role === 'teacher');
+            document.getElementById('supervisorRoleBtn').classList.toggle('active', role === 'supervisor');
+        }
+
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            if (!username || !password) {
+                showToast('يرجى إدخال اسم المستخدم وكلمة المرور', 'error');
+                return;
+            }
+            // Simple auth (demo)
+            if (password.length < 3) {
+                showToast('كلمة المرور قصيرة جداً', 'error');
+                return;
+            }
+            appState.currentUser = {
+                username: username,
+                role: appState.role,
+                loginTime: new Date().toISOString(),
+            };
+            appState.role = appState.role || 'teacher';
+            saveState();
+            addNotification('تسجيل دخول', `تم تسجيل الدخول بنجاح كـ ${appState.role === 'teacher' ? 'أستاذ' : 'موجه'}`);
+            showMainApp();
+            showToast('مرحباً بك في نظام الحلقات القرآنية', 'success');
+        }
+
+        function logout() {
+            if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
+                appState.currentUser = null;
+                saveState();
+                document.getElementById('appMain').style.display = 'none';
+                document.getElementById('loginScreen').style.display = 'flex';
+                document.getElementById('password').value = '';
+                showToast('تم تسجيل الخروج', 'info');
+            }
+        }
+
+        function showMainApp() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('appMain').style.display = 'block';
+            document.getElementById('roleDisplay').textContent = appState.role === 'teacher' ? 'أستاذ' :
+                'موجه';
+            updateAllUI();
+            renderBottomNav();
+            navigateTo('today');
+        }
+
+        // ==================== NAVIGATION ====================
+        function navigateTo(section) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            const sec = document.getElementById('sec-' + section);
+            if (sec) sec.classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            const navItem = document.querySelector(`.nav-item[data-section="${section}"]`);
+            if (navItem) navItem.classList.add('active');
+            renderSection(section);
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderBottomNav() {
+            const nav = document.getElementById('bottomNav');
+            const items = [
+                { section: 'today', icon: 'fa-calendar-check', label: 'اليوم' },
+                { section: 'students', icon: 'fa-users', label: 'الطلاب' },
+                { section: 'reports', icon: 'fa-chart-bar', label: 'التقارير' },
+            ];
+            if (appState.role === 'supervisor') {
+                items.push({ section: 'supervisor', icon: 'fa-binoculars', label: 'الإشراف' });
+            }
+            items.push({ section: 'settings', icon: 'fa-cog', label: 'الإعدادات' });
+            nav.innerHTML = items.map(item => `
+            <button class="nav-item" data-section="${item.section}" onclick="navigateTo('${item.section}')">
+              <i class="fas ${item.icon}"></i>
+              <span>${item.label}</span>
+            </button>
+          `).join('');
+        }
+
+        function renderSection(section) {
+            switch (section) {
+                case 'today':
+                    renderTodaySection();
+                    break;
+                case 'students':
+                    renderStudentsSection();
+                    break;
+                case 'reports':
+                    renderReportsSection();
+                    break;
+                case 'supervisor':
+                    renderSupervisorSection();
+                    break;
+                case 'settings':
+                    renderSettingsSection();
+                    break;
+            }
+        }
+
+        // ==================== TODAY SECTION ====================
+        function renderTodaySection() {
+            const container = document.getElementById('sec-today');
+            const today = appState.selectedDate;
+            const dayAtt = appState.attendance[today] || {};
+            const totalStudents = appState.students.filter(s => s.active).length;
+            const presentCount = Object.values(dayAtt).filter(v => v === 'present').length;
+            const absentCount = Object.values(dayAtt).filter(v => v === 'absent').length;
+            const lateCount = Object.values(dayAtt).filter(v => v === 'late').length;
+            const uncheckedCount = totalStudents - presentCount - absentCount - lateCount;
+
+            // Header stats
+            document.getElementById('headerStats').innerHTML = `
+            <div class="stat-chip present"><i class="fas fa-circle"></i> حاضر: ${presentCount}</div>
+            <div class="stat-chip absent"><i class="fas fa-circle"></i> غائب: ${absentCount}</div>
+            <div class="stat-chip" style="color:#f39c12;border-color:rgba(243,156,18,0.3);background:rgba(243,156,18,0.05);"><i class="fas fa-circle"></i> متأخر: ${lateCount}</div>
+            <div class="stat-chip" style="color:#8a7a60;"><i class="fas fa-circle"></i> لم يُسجل: ${uncheckedCount}</div>
+          `;
+
+            let html = `
+            <div class="section-title"><i class="fas fa-calendar-check"></i> تفقد اليوم</div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title"><i class="fas fa-clipboard-list"></i> تسجيل الحضور</div>
+                <div class="card-badge">${today}</div>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+                <button class="btn btn-sm btn-green" onclick="markAllAttendance('present')"><i class="fas fa-check-double"></i> الكل حاضر</button>
+                <button class="btn btn-sm btn-outline" onclick="markAllAttendance('absent')"><i class="fas fa-times"></i> الكل غائب</button>
+                <button class="btn btn-sm btn-outline" onclick="openScanner()"><i class="fas fa-qrcode"></i> مسح باركود</button>
+              </div>
+              <div id="todayStudentList"></div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title"><i class="fas fa-star"></i> التسميع اليومي</div>
+              </div>
+              <div id="todayMemorization"></div>
+            </div>
+          `;
+            container.innerHTML = html;
+
+            // Render student list for today
+            renderTodayStudentList();
+            renderTodayMemorization();
+        }
+
+        function renderTodayStudentList() {
+            const today = appState.selectedDate;
+            const dayAtt = appState.attendance[today] || {};
+            const container = document.getElementById('todayStudentList');
+            if (!container) return;
+            const activeStudents = appState.students.filter(s => s.active);
+            if (activeStudents.length === 0) {
+                container.innerHTML = '<div class="empty-state"><i class="fas fa-user-slash"></i><p>لا يوجد طلاب نشطين</p></div>';
+                return;
+            }
+            container.innerHTML = activeStudents.map(s => {
+                const status = dayAtt[s.id] || 'unchecked';
+                const ring = appState.rings.find(r => r.id === s.ringId);
+                const ringColor = ring ? ring.color : '#b8963e';
+                const ringClass = 'ring-' + (s.ringId || 1);
+                let statusIcon = '<i class="fas fa-question-circle" style="color:#8a7a60;"></i>';
+                if (status === 'present') statusIcon =
+                    '<i class="fas fa-check-circle" style="color:#1a7a3a;"></i>';
+                if (status === 'absent') statusIcon =
+                '<i class="fas fa-times-circle" style="color:#c0392b;"></i>';
+                if (status === 'late') statusIcon =
+                    '<i class="fas fa-clock" style="color:#f39c12;"></i>';
+                return `
+              <div class="student-item" onclick="cycleAttendance(${s.id})">
+                <div class="student-avatar ${ringClass}" style="background:${ringColor};">
+                  ${s.name.charAt(0)}
+                  <span class="status-dot ${status === 'unchecked' ? '' : status}"></span>
+                </div>
+                <div class="student-info">
+                  <div class="student-name">${s.name}</div>
+                  <div class="student-detail">
+                    <span><i class="fas fa-layer-group"></i> ${ring ? ring.name : 'غير محدد'}</span>
+                    <span>${statusIcon} ${status === 'present' ? 'حاضر' : status === 'absent' ? 'غائب' : status === 'late' ? 'متأخر' : 'لم يُسجل'}</span>
+                  </div>
+                </div>
+                <div class="attendance-toggle" onclick="event.stopPropagation();">
+                  <button class="att-btn ${status==='present'?'present-active':''}" onclick="setAttendance(${s.id},'present')">حاضر</button>
+                  <button class="att-btn ${status==='absent'?'absent-active':''}" onclick="setAttendance(${s.id},'absent')">غائب</button>
+                  <button class="att-btn ${status==='late'?'late-active':''}" onclick="setAttendance(${s.id},'late')">متأخر</button>
+                </div>
+              </div>
+            `;
+            }).join('');
+        }
+
+        function cycleAttendance(studentId) {
+            const today = appState.selectedDate;
+            if (!appState.attendance[today]) appState.attendance[today] = {};
+            const current = appState.attendance[today][studentId] || 'unchecked';
+            const cycle = ['unchecked', 'present', 'late', 'absent'];
+            const idx = cycle.indexOf(current);
+            const next = cycle[(idx + 1) % cycle.length];
+            if (next === 'unchecked') {
+                delete appState.attendance[today][studentId];
+            } else {
+                appState.attendance[today][studentId] = next;
+            }
+            saveState();
+            updateAllUI();
+            const student = appState.students.find(s => s.id === studentId);
+            if (student && next !== 'unchecked') {
+                const labels = { present: 'حاضر', absent: 'غائب', late: 'متأخر' };
+                addNotification('تحديث الحضور', `${student.name}: ${labels[next] || next}`);
+            }
+        }
+
+        function setAttendance(studentId, status) {
+            const today = appState.selectedDate;
+            if (!appState.attendance[today]) appState.attendance[today] = {};
+            appState.attendance[today][studentId] = status;
+            saveState();
+            updateAllUI();
+            const student = appState.students.find(s => s.id === studentId);
+            const labels = { present: 'حاضر', absent: 'غائب', late: 'متأخر' };
+            if (student) addNotification('تحديث الحضور', `${student.name}: ${labels[status]}`);
+            showToast(`تم تحديث حالة ${student ? student.name : 'الطالب'}`, 'success');
+        }
+
+        function markAllAttendance(status) {
+            if (!confirm(`هل أنت متأكد من تعيين جميع الطلاب كـ ${status === 'present' ? 'حاضر' : 'غائب'}؟`)) return;
+            const today = appState.selectedDate;
+            if (!appState.attendance[today]) appState.attendance[today] = {};
+            appState.students.filter(s => s.active).forEach(s => {
+                appState.attendance[today][s.id] = status;
+            });
+            saveState();
+            updateAllUI();
+            showToast('تم تحديث الحضور للجميع', 'success');
+        }
+
+        function renderTodayMemorization() {
+            const container = document.getElementById('todayMemorization');
+            if (!container) return;
+            const today = appState.selectedDate;
+            const activeStudents = appState.students.filter(s => s.active).slice(0, 6);
+            container.innerHTML = activeStudents.map(s => {
+                const mem = appState.memorization[s.id] || { surah: '-', fromAyah: 1, toAyah: 1,
+                    grade: '-' };
+                return `
+              <div class="student-item" onclick="openMemorizationModal(${s.id})">
+                <div class="student-avatar ring-${s.ringId || 1}">${s.name.charAt(0)}</div>
+                <div class="student-info">
+                  <div class="student-name">${s.name}</div>
+                  <div class="student-detail">
+                    <span><i class="fas fa-book-open"></i> ${mem.surah} (${mem.fromAyah}-${mem.toAyah})</span>
+                    <span><i class="fas fa-star"></i> ${mem.grade}</span>
+                  </div>
+                </div>
+                <i class="fas fa-chevron-left" style="color:var(--text-light);"></i>
+              </div>
+            `;
+            }).join('');
+            if (activeStudents.length === 0) {
+                container.innerHTML = '<div class="empty-state"><i class="fas fa-book"></i><p>لا يوجد طلاب</p></div>';
+            }
+        }
+
+        // ==================== STUDENTS SECTION ====================
+        function renderStudentsSection() {
+            const container = document.getElementById('sec-students');
+            const rings = appState.rings;
+            let html = `
+            <div class="section-title"><i class="fas fa-users"></i> الطلاب والحلقات</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+              <button class="btn btn-sm btn-primary" onclick="openAddStudentModal()"><i class="fas fa-plus"></i> إضافة طالب</button>
+              <button class="btn btn-sm btn-outline" onclick="openAddRingModal()"><i class="fas fa-layer-group"></i> إضافة حلقة</button>
+              <button class="btn btn-sm btn-outline" onclick="exportData()"><i class="fas fa-download"></i> تصدير</button>
+            </div>
+          `;
+            // Group by rings
+            rings.forEach(ring => {
+                const ringStudents = appState.students.filter(s => s.ringId === ring.id && s.active);
+                html += `
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">
+                    <span class="ring-circle" style="background:${ring.color};width:32px;height:32px;font-size:14px;">${ring.name.charAt(ring.name.length-1)}</span>
+                    ${ring.name}
+                  </div>
+                  <span style="font-size:12px;color:var(--text-secondary);">${ringStudents.length} طالب</span>
+                </div>
+                <div style="font-size:12px;color:var(--text-light);margin-bottom:8px;">
+                  <i class="fas fa-user-tie"></i> ${ring.teacher} &nbsp;|&nbsp; <i class="fas fa-clock"></i> ${ring.time}
+                </div>
+                ${ringStudents.map(s => {
+                  const mem = appState.memorization[s.id] || {};
+                  const today = appState.selectedDate;
+                  const dayAtt = appState.attendance[today] || {};
+                  const status = dayAtt[s.id] || 'unchecked';
+                  return `
+                  <div class="student-item" style="margin-bottom:4px;">
+                    <div class="student-avatar ring-${s.ringId}" style="background:${ring.color};">${s.name.charAt(0)}</div>
+                    <div class="student-info">
+                      <div class="student-name">${s.name} <span style="font-size:11px;color:var(--text-light);">(${s.age} سنة)</span></div>
+                      <div class="student-detail">
+                        <span><i class="fas fa-book-open"></i> ${mem.surah || '-'}</span>
+                        <span><i class="fas fa-${status==='present'?'check':'times'}"></i> ${status==='present'?'حاضر':status==='absent'?'غائب':'--'}</span>
+                      </div>
+                    </div>
+                    <div class="student-actions">
+                      <button class="btn-icon-only" onclick="event.stopPropagation();openEditStudentModal(${s.id})" title="تعديل"><i class="fas fa-edit"></i></button>
+                      <button class="btn-icon-only" onclick="event.stopPropagation();deleteStudent(${s.id})" title="حذف" style="color:var(--red);"><i class="fas fa-trash"></i></button>
+                    </div>
+                  </div>
+                `;
+                }).join('') || '<div class="empty-state"><i class="fas fa-user"></i><p>لا يوجد طلاب في هذه الحلقة</p></div>'}
+              </div>
+            `;
+            });
+            // Inactive students
+            const inactiveStudents = appState.students.filter(s => !s.active);
+            if (inactiveStudents.length > 0) {
+                html += `
+              <div class="card" style="opacity:0.7;">
+                <div class="card-header"><div class="card-title"><i class="fas fa-user-slash"></i> طلاب غير نشطين</div></div>
+                ${inactiveStudents.map(s => `
+                  <div class="student-item">
+                    <div class="student-avatar" style="background:#888;">${s.name.charAt(0)}</div>
+                    <div class="student-info"><div class="student-name">${s.name}</div></div>
+                    <button class="btn btn-xs btn-outline" onclick="toggleStudentActive(${s.id})">تنشيط</button>
+                  </div>
+                `).join('')}
+              </div>
+            `;
+            }
+            container.innerHTML = html;
+        }
+
+        function openAddStudentModal() {
+            const rings = appState.rings;
+            const modal = document.getElementById('modalContainer');
+            modal.innerHTML = `
+            <div class="modal-overlay" onclick="closeModal()">
+              <div class="modal-sheet" onclick="event.stopPropagation();">
+                <div class="modal-handle"></div>
+                <div class="modal-header-row">
+                  <h3><i class="fas fa-user-plus"></i> إضافة طالب جديد</h3>
+                  <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="form-group"><label>الاسم الكامل</label><input type="text" id="newStudentName" placeholder="أدخل الاسم"></div>
+                <div class="form-group"><label>العمر</label><input type="number" id="newStudentAge" placeholder="العمر" value="10" min="5" max="25"></div>
+                <div class="form-group"><label>الحلقة</label>
+                  <select id="newStudentRing" style="width:100%;padding:12px;border-radius:8px;border:2px solid var(--border);font-family:inherit;background:var(--surface-alt);color:var(--text);">
+                    ${rings.map(r => `<option value="${r.id}">${r.name} - ${r.teacher}</option>`).join('')}
+                  </select>
+                </div>
+                <div class="form-group"><label>رقم الهاتف</label><input type="tel" id="newStudentPhone" placeholder="05xxxxxxxx"></div>
+                <div class="form-group"><label>اسم ولي الأمر</label><input type="text" id="newStudentParent" placeholder="اسم ولي الأمر"></div>
+                <button class="btn btn-primary w-100 mt-3" onclick="addStudent()"><i class="fas fa-save"></i> حفظ الطالب</button>
+              </div>
+            </div>
+          `;
+        }
+
+        function addStudent() {
+            const name = document.getElementById('newStudentName').value.trim();
+            const age = parseInt(document.getElementById('newStudentAge').value) || 10;
+            const ringId = parseInt(document.getElementById('newStudentRing').value);
+            const phone = document.getElementById('newStudentPhone').value.trim();
+            const parentName = document.getElementById('newStudentParent').value.trim();
+            if (!name) { showToast('يرجى إدخال اسم الطالب', 'error'); return; }
+            const newId = Math.max(...appState.students.map(s => s.id), 0) + 1;
+            const newStudent = {
+                id: newId,
+                name,
+                ringId,
+                age,
+                joinedDate: new Date().toISOString().split('T')[0],
+                phone,
+                parentName,
+                notes: '',
+                active: true,
+            };
+            appState.students.push(newStudent);
+            appState.memorization[newId] = { surah: 'الفاتحة', fromAyah: 1, toAyah: 7, grade: 'جيد',
+                lastUpdate: new Date().toISOString().split('T')[0] };
+            saveState();
+            closeModal();
+            updateAllUI();
+            addNotification('طالب جديد', `تم إضافة ${name} بنجاح`);
+            showToast(`تم إضافة ${name}`, 'success');
+        }
+
+        function openEditStudentModal(studentId) {
+            const s = appState.students.find(st => st.id === studentId);
+            if (!s) return;
+            const rings = appState.rings;
+            const modal = document.getElementById('modalContainer');
+            modal.innerHTML = `
+            <div class="modal-overlay" onclick="closeModal()">
+              <div class="modal-sheet" onclick="event.stopPropagation();">
+                <div class="modal-handle"></div>
+                <div class="modal-header-row">
+                  <h3><i class="fas fa-user-edit"></i> تعديل بيانات الطالب</h3>
+                  <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="form-group"><label>الاسم</label><input type="text" id="editStudentName" value="${s.name}"></div>
+                <div class="form-group"><label>العمر</label><input type="number" id="editStudentAge" value="${s.age}" min="5" max="25"></div>
+                <div class="form-group"><label>الحلقة</label>
+                  <select id="editStudentRing" style="width:100%;padding:12px;border-radius:8px;border:2px solid var(--border);font-family:inherit;background:var(--surface-alt);color:var(--text);">
+                    ${rings.map(r => `<option value="${r.id}" ${r.id===s.ringId?'selected':''}>${r.name} - ${r.teacher}</option>`).join('')}
+                  </select>
+                </div>
+                <div class="form-group"><label>الهاتف</label><input type="tel" id="editStudentPhone" value="${s.phone||''}"></div>
+                <div class="form-group"><label>ولي الأمر</label><input type="text" id="editStudentParent" value="${s.parentName||''}"></div>
+                <div class="form-group"><label>ملاحظات</label><textarea id="editStudentNotes" style="width:100%;padding:10px;border-radius:8px;border:2px solid var(--border);font-family:inherit;background:var(--surface-alt);color:var(--text);min-height:60px;">${s.notes||''}</textarea></div>
+                <button class="btn btn-primary w-100 mt-3" onclick="saveStudentEdit(${studentId})"><i class="fas fa-save"></i> حفظ التعديلات</button>
+                <button class="btn btn-red w-100 mt-2" onclick="toggleStudentActive(${studentId})"><i class="fas fa-toggle-${s.active?'off':'on'}"></i> ${s.active?'تعطيل':'تنشيط'} الطالب</button>
+              </div>
+            </div>
+          `;
+        }
+
+        function saveStudentEdit(studentId) {
+            const s = appState.students.find(st => st.id === studentId);
+            if (!s) return;
+            s.name = document.getElementById('editStudentName').value.trim() || s.name;
+            s.age = parseInt(document.getElementById('editStudentAge').value) || s.age;
+            s.ringId = parseInt(document.getElementById('editStudentRing').value);
+            s.phone = document.getElementById('editStudentPhone').value.trim();
+            s.parentName = document.getElementById('editStudentParent').value.trim();
+            s.notes = document.getElementById('editStudentNotes').value.trim();
+            saveState();
+            closeModal();
+            updateAllUI();
+            showToast('تم حفظ التعديلات', 'success');
+        }
+
+        function deleteStudent(studentId) {
+            const s = appState.students.find(st => st.id === studentId);
+            if (!s) return;
+            if (!confirm(`هل أنت متأكد من حذف الطالب "${s.name}"؟`)) return;
+            s.active = false;
+            saveState();
+            updateAllUI();
+            showToast(`تم تعطيل ${s.name}`, 'info');
+        }
+
+        function toggleStudentActive(studentId) {
+            const s = appState.students.find(st => st.id === studentId);
+            if (!s) return;
+            s.active = !s.active;
+            saveState();
+            closeModal();
+            updateAllUI();
+            showToast(`تم ${s.active ? 'تنشيط' : 'تعطيل'} ${s.name}`, 'info');
+        }
+
+        function openAddRingModal() {
+            const modal = document.getElementById('modalContainer');
+            modal.innerHTML = `
+            <div class="modal-overlay" onclick="closeModal()">
+              <div class="modal-sheet" onclick="event.stopPropagation();">
+                <div class="modal-handle"></div>
+                <div class="modal-header-row">
+                  <h3><i class="fas fa-layer-group"></i> إضافة حلقة جديدة</h3>
+                  <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="form-group"><label>اسم الحلقة</label><input type="text" id="newRingName" placeholder="مثال: حلقة الظهر"></div>
+                <div class="form-group"><label>اسم الأستاذ</label><input type="text" id="newRingTeacher" placeholder="اسم الأستاذ"></div>
+                <div class="form-group"><label>الوقت</label><input type="text" id="newRingTime" placeholder="مثال: 02:00 مساءً"></div>
+                <div class="form-group"><label>اللون</label><input type="color" id="newRingColor" value="#b8963e" style="width:60px;height:40px;border:none;cursor:pointer;"></div>
+                <button class="btn btn-primary w-100 mt-3" onclick="addRing()"><i class="fas fa-save"></i> حفظ الحلقة</button>
+              </div>
+            </div>
+          `;
+        }
+
+        function addRing() {
+            const name = document.getElementById('newRingName').value.trim();
+            const teacher = document.getElementById('newRingTeacher').value.trim();
+            const time = document.getElementById('newRingTime').value.trim();
+            const color = document.getElementById('newRingColor').value;
+            if (!name) { showToast('يرجى إدخال اسم الحلقة', 'error'); return; }
+            const newId = Math.max(...appState.rings.map(r => r.id), 0) + 1;
+            appState.rings.push({ id: newId, name, teacher: teacher || 'غير محدد', color, time: time ||
+                    'غير محدد' });
+            saveState();
+            closeModal();
+            updateAllUI();
+            showToast(`تم إضافة حلقة "${name}"`, 'success');
+        }
+
+        // ==================== MEMORIZATION MODAL ====================
+        function openMemorizationModal(studentId) {
+            const s = appState.students.find(st => st.id === studentId);
+            if (!s) return;
+            const mem = appState.memorization[studentId] || { surah: 'الفاتحة', fromAyah: 1, toAyah: 7,
+                grade: 'جيد' };
+            const modal = document.getElementById('modalContainer');
+            modal.innerHTML = `
+            <div class="modal-overlay" onclick="closeModal()">
+              <div class="modal-sheet" onclick="event.stopPropagation();">
+                <div class="modal-handle"></div>
+                <div class="modal-header-row">
+                  <h3><i class="fas fa-book-open"></i> تسميع ${s.name}</h3>
+                  <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="form-group"><label>السورة</label><input type="text" id="memSurah" value="${mem.surah}" placeholder="اسم السورة"></div>
+                <div style="display:flex;gap:10px;">
+                  <div class="form-group flex-1"><label>من آية</label><input type="number" id="memFrom" value="${mem.fromAyah}" min="1"></div>
+                  <div class="form-group flex-1"><label>إلى آية</label><input type="number" id="memTo" value="${mem.toAyah}" min="1"></div>
+                </div>
+                <div class="form-group"><label>التقييم</label>
+                  <select id="memGrade" style="width:100%;padding:12px;border-radius:8px;border:2px solid var(--border);font-family:inherit;background:var(--surface-alt);color:var(--text);">
+                    <option value="ممتاز" ${mem.grade==='ممتاز'?'selected':''}>ممتاز</option>
+                    <option value="جيد جداً" ${mem.grade==='جيد جداً'?'selected':''}>جيد جداً</option>
+                    <option value="جيد" ${mem.grade==='جيد'?'selected':''}>جيد</option>
+                    <option value="مقبول" ${mem.grade==='مقبول'?'selected':''}>مقبول</option>
+                    <option value="يحتاج تحسين" ${mem.grade==='يحتاج تحسين'?'selected':''}>يحتاج تحسين</option>
+                  </select>
+                </div>
+                <button class="btn btn-primary w-100 mt-3" onclick="saveMemorization(${studentId})"><i class="fas fa-save"></i> حفظ التسميع</button>
+              </div>
+            </div>
+          `;
+        }
+
+        function saveMemorization(studentId) {
+            const surah = document.getElementById('memSurah').value.trim();
+            const fromAyah = parseInt(document.getElementById('memFrom').value) || 1;
+            const toAyah = parseInt(document.getElementById('memTo').value) || 1;
+            const grade = document.getElementById('memGrade').value;
+            if (!surah) { showToast('يرجى إدخال اسم السورة', 'error'); return; }
+            appState.memorization[studentId] = {
+                surah,
+                fromAyah,
+                toAyah,
+                grade,
+                lastUpdate: new Date().toISOString().split('T')[0],
+            };
+            saveState();
+            closeModal();
+            updateAllUI();
+            const s = appState.students.find(st => st.id === studentId);
+            showToast(`تم حفظ تسميع ${s ? s.name : 'الطالب'}`, 'success');
+        }
+
+        // ==================== REPORTS SECTION ====================
+        function renderReportsSection() {
+            const container = document.getElementById('sec-reports');
+            const today = appState.selectedDate;
+            const dayAtt = appState.attendance[today] || {};
+            const total = appState.students.filter(s => s.active).length;
+            const present = Object.values(dayAtt).filter(v => v === 'present').length;
+            const absent = Object.values(dayAtt).filter(v => v === 'absent').length;
+            const late = Object.values(dayAtt).filter(v => v === 'late').length;
+            const percent = total > 0 ? Math.round((present / total) * 100) : 0;
+
+            // Weekly data (simulated)
+            const weekDays = ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
+            const weekData = weekDays.map((d, i) => {
+                const date = new Date();
+                date.setDate(date.getDate() - (6 - i));
+                const dateStr = date.toISOString().split('T')[0];
+                const att = appState.attendance[dateStr] || {};
+                const p = Object.values(att).filter(v => v === 'present').length;
+                return { day: d, present: p, total: total || 1 };
+            });
+            const maxP = Math.max(...weekData.map(d => d.present), 1);
+
+            container.innerHTML = `
+            <div class="section-title"><i class="fas fa-chart-bar"></i> التقارير والإحصائيات</div>
+            <div class="card">
+              <div class="card-header"><div class="card-title"><i class="fas fa-calendar-day"></i> ملخص اليوم</div></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:center;">
+                <div style="background:rgba(26,122,58,0.08);padding:14px;border-radius:12px;">
+                  <div style="font-size:32px;font-weight:800;color:#1a7a3a;">${present}</div>
+                  <div style="font-size:12px;color:var(--text-secondary);">حاضر</div>
+                </div>
+                <div style="background:rgba(192,57,43,0.08);padding:14px;border-radius:12px;">
+                  <div style="font-size:32px;font-weight:800;color:#c0392b;">${absent}</div>
+                  <div style="font-size:12px;color:var(--text-secondary);">غائب</div>
+                </div>
+                <div style="background:rgba(243,156,18,0.08);padding:14px;border-radius:12px;">
+                  <div style="font-size:32px;font-weight:800;color:#f39c12;">${late}</div>
+                  <div style="font-size:12px;color:var(--text-secondary);">متأخر</div>
+                </div>
+                <div style="background:rgba(184,150,62,0.08);padding:14px;border-radius:12px;">
+                  <div style="font-size:32px;font-weight:800;color:#b8963e;">${percent}%</div>
+                  <div style="font-size:12px;color:var(--text-secondary);">نسبة الحضور</div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title"><i class="fas fa-chart-line"></i> الحضور الأسبوعي</div></div>
+              <div class="bar-chart">
+                ${weekData.map(d => `
+                  <div class="bar-col">
+                    <div class="bar-value">${d.present}</div>
+                    <div class="bar-fill gold-bg" style="height:${(d.present/maxP)*140}px;" title="${d.day}: ${d.present} حاضر"></div>
+                    <div class="bar-label">${d.day}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title"><i class="fas fa-trophy"></i> أكثر الطلاب تسميعاً</div></div>
+              <div id="topMemorizers"></div>
+            </div>
+          `;
+            renderTopMemorizers();
+        }
+
+        function renderTopMemorizers() {
+            const container = document.getElementById('topMemorizers');
+            if (!container) return;
+            const students = [...appState.students].filter(s => s.active).sort((a, b) => {
+                const ma = appState.memorization[a.id] || { toAyah: 0, fromAyah: 0 };
+                const mb = appState.memorization[b.id] || { toAyah: 0, fromAyah: 0 };
+                return (mb.toAyah - mb.fromAyah) - (ma.toAyah - ma.fromAyah);
+            }).slice(0, 5);
+            container.innerHTML = students.map((s, i) => {
+                const mem = appState.memorization[s.id] || {};
+                const ayahs = (mem.toAyah || 0) - (mem.fromAyah || 0) + 1;
+                return `
+              <div class="student-item">
+                <div style="font-weight:800;font-size:18px;color:var(--gold);width:30px;">#${i+1}</div>
+                <div class="student-avatar ring-${s.ringId||1}">${s.name.charAt(0)}</div>
+                <div class="student-info">
+                  <div class="student-name">${s.name}</div>
+                  <div class="student-detail">${mem.surah||'-'}: ${ayahs} آية - ${mem.grade||'-'}</div>
+                </div>
+              </div>
+            `;
+            }).join('') || '<div class="empty-state"><p>لا توجد بيانات</p></div>';
+        }
+
+        // ==================== SUPERVISOR SECTION ====================
+        function renderSupervisorSection() {
+            const container = document.getElementById('sec-supervisor');
+            const rings = appState.rings;
+            const today = appState.selectedDate;
+            const dayAtt = appState.attendance[today] || {};
+            container.innerHTML = `
+            <div class="section-title"><i class="fas fa-binoculars"></i> لوحة الإشراف</div>
+            <div class="card">
+              <div class="card-header"><div class="card-title"><i class="fas fa-layer-group"></i> نظرة عامة على الحلقات</div></div>
+              ${rings.map(ring => {
+                const ringStudents = appState.students.filter(s => s.ringId === ring.id && s.active);
+                const presentCount = ringStudents.filter(s => dayAtt[s.id] === 'present').length;
+                const totalRing = ringStudents.length;
+                const ringPercent = totalRing > 0 ? Math.round((presentCount/totalRing)*100) : 0;
+                return `
+                  <div class="ring-card" onclick="showRingDetail(${ring.id})">
+                    <div class="ring-circle" style="background:${ring.color};">${ring.name.charAt(ring.name.length-1)}</div>
+                    <div class="flex-1">
+                      <div style="font-weight:700;">${ring.name}</div>
+                      <div style="font-size:12px;color:var(--text-secondary);">${ring.teacher} | ${ring.time}</div>
+                      <div class="progress-wrap">
+                        <div class="progress-label"><span>الحضور</span><span>${presentCount}/${totalRing} (${ringPercent}%)</span></div>
+                        <div class="progress-bar"><div class="progress-fill green" style="width:${ringPercent}%;"></div></div>
+                      </div>
+                    </div>
+                    <i class="fas fa-chevron-left" style="color:var(--text-light);"></i>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title"><i class="fas fa-exclamation-triangle"></i> تنبيهات</div></div>
+              <div id="supervisorAlerts"></div>
+            </div>
+          `;
+            renderSupervisorAlerts();
+        }
+
+        function renderSupervisorAlerts() {
+            const container = document.getElementById('supervisorAlerts');
+            if (!container) return;
+            const today = appState.selectedDate;
+            const dayAtt = appState.attendance[today] || {};
+            const alerts = [];
+            appState.rings.forEach(ring => {
+                const ringStudents = appState.students.filter(s => s.ringId === ring.id && s.active);
+                const absentStudents = ringStudents.filter(s => dayAtt[s.id] === 'absent');
+                if (absentStudents.length > 0) {
+                    alerts.push({ ring, count: absentStudents.length, students: absentStudents });
+                }
+            });
+            if (alerts.length === 0) {
+                container.innerHTML =
+                    '<div style="padding:20px;text-align:center;color:var(--green);"><i class="fas fa-check-circle"></i> جميع الطلاب المسجلين حاضرون اليوم</div>';
+            } else {
+                container.innerHTML = alerts.map(a => `
+              <div style="padding:10px;background:rgba(192,57,43,0.05);border-radius:8px;margin-bottom:8px;border-right:3px solid var(--red);">
+                <strong>${a.ring.name}</strong>: ${a.count} طلاب غائبون
+                <div style="font-size:11px;color:var(--text-light);">${a.students.map(s=>s.name).join('، ')}</div>
+              </div>
+            `).join('');
+            }
+        }
+
+        function showRingDetail(ringId) {
+            const ring = appState.rings.find(r => r.id === ringId);
+            if (!ring) return;
+            const ringStudents = appState.students.filter(s => s.ringId === ringId && s.active);
+            const today = appState.selectedDate;
+            const dayAtt = appState.attendance[today] || {};
+            const modal = document.getElementById('modalContainer');
+            modal.innerHTML = `
+            <div class="modal-overlay" onclick="closeModal()">
+              <div class="modal-sheet" onclick="event.stopPropagation();">
+                <div class="modal-handle"></div>
+                <div class="modal-header-row">
+                  <h3>${ring.name} - ${ring.teacher}</h3>
+                  <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+                </div>
+                ${ringStudents.map(s => {
+                  const status = dayAtt[s.id] || 'unchecked';
+                  const mem = appState.memorization[s.id] || {};
+                  return `
+                    <div class="student-item">
+                      <div class="student-avatar ring-${ringId}" style="background:${ring.color};">${s.name.charAt(0)}</div>
+                      <div class="student-info">
+                        <div class="student-name">${s.name}</div>
+                        <div class="student-detail">
+                          <span><i class="fas fa-${status==='present'?'check':'times'}"></i> ${status==='present'?'حاضر':status==='absent'?'غائب':'--'}</span>
+                          <span>${mem.surah||'-'}: ${(mem.toAyah||0)-(mem.fromAyah||0)+1} آية</span>
+                        </div>
+                      </div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        // ==================== SETTINGS SECTION ====================
+        function renderSettingsSection() {
+            const container = document.getElementById('sec-settings');
+            container.innerHTML = `
+            <div class="section-title"><i class="fas fa-cog"></i> الإعدادات</div>
+            <div class="card">
+              <div class="card-header"><div class="card-title"><i class="fas fa-palette"></i> المظهر</div></div>
+              <button class="btn btn-outline w-100" onclick="toggleTheme()">
+                <i class="fas fa-${appState.theme==='dark'?'sun':'moon'}"></i>
+                ${appState.theme==='dark'?'تفعيل الوضع الفاتح':'تفعيل الوضع الداكن'}
+              </button>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title"><i class="fas fa-database"></i> البيانات</div></div>
+              <button class="btn btn-outline w-100 mb-2" onclick="exportData()"><i class="fas fa-download"></i> تصدير البيانات</button>
+              <button class="btn btn-outline w-100 mb-2" onclick="importDataPrompt()"><i class="fas fa-upload"></i> استيراد البيانات</button>
+              <button class="btn btn-red w-100" onclick="resetAllData()"><i class="fas fa-trash-alt"></i> مسح جميع البيانات</button>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title"><i class="fas fa-info-circle"></i> معلومات</div></div>
+              <p style="font-size:13px;color:var(--text-secondary);">نظام التفقد في مسجد الإمام الشافعي - إدارة الحلقات القرآنية</p>
+              <p style="font-size:12px;color:var(--text-light);">الإصدار 2.0 - 2026</p>
+            </div>
+          `;
+        }
+
+        // ==================== MODAL ====================
+        function closeModal() {
+            document.getElementById('modalContainer').innerHTML = '';
+        }
+
+        // ==================== TOAST ====================
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast-item ${type}`;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' };
+            toast.innerHTML = `<i class="fas ${icons[type]||icons.info}"></i> ${message}`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(50px)';
+                toast.style.transition = '0.4s';
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+
+        // ==================== NOTIFICATIONS ====================
+        function addNotification(title, message) {
+            const notif = { title, message, time: new Date().toLocaleTimeString('ar-SA'), id: Date.now() };
+            appState.notifications.unshift(notif);
+            if (appState.notifications.length > 30) appState.notifications.pop();
+            saveState();
+            updateNotifBadge();
+        }
+
+        function updateNotifBadge() {
+            const badge = document.getElementById('notifBadge');
+            const count = appState.notifications.length;
+            if (count > 0) {
+                badge.style.display = 'flex';
+                badge.textContent = count > 9 ? '9+' : count;
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function showNotificationPanel() {
+            const panel = document.getElementById('notificationPanel');
+            panel.style.display = 'flex';
+            const list = document.getElementById('notifList');
+            list.innerHTML = appState.notifications.length === 0 ?
+                '<div class="empty-state"><i class="fas fa-bell-slash"></i><p>لا توجد إشعارات</p></div>' :
+                appState.notifications.map(n => `
+              <div class="notif-item">
+                <strong>${n.title}</strong>
+                <div>${n.message}</div>
+                <div class="notif-time">${n.time}</div>
+              </div>
+            `).join('');
+            updateNotifBadge();
+        }
+
+        function closeNotifications() {
+            document.getElementById('notificationPanel').style.display = 'none';
+        }
+
+        // ==================== QR CODE ====================
+        function showQRCode() {
+            const modal = document.getElementById('modalContainer');
+            const userData = JSON.stringify({
+                user: appState.currentUser?.username || 'unknown',
+                role: appState.role,
+                timestamp: Date.now(),
+            });
+            modal.innerHTML = `
+            <div class="modal-overlay" onclick="closeModal()">
+              <div class="modal-sheet" onclick="event.stopPropagation();">
+                <div class="modal-handle"></div>
+                <div class="modal-header-row">
+                  <h3><i class="fas fa-qrcode"></i> الباركود الشخصي</h3>
+                  <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="qr-display" id="qrDisplay"></div>
+                <p class="text-center font-sm" style="color:var(--text-secondary);">امسح هذا الباركود لتسجيل الحضور</p>
+              </div>
+            </div>
+          `;
+            setTimeout(() => {
+                const container = document.getElementById('qrDisplay');
+                if (container) {
+                    new QRCode(container, {
+                        text: userData,
+                        width: 200,
+                        height: 200,
+                        colorDark: '#2c2416',
+                        colorLight: '#ffffff',
+                    });
+                }
+            }, 200);
+        }
+
+        // ==================== SCANNER ====================
+        function openScanner() {
+            const overlay = document.getElementById('scannerOverlay');
+            overlay.style.display = 'flex';
+            const readerEl = document.getElementById('qr-reader');
+            readerEl.innerHTML = '';
+            const html5QrCode = new Html5Qrcode('qr-reader');
+            html5QrCode.start({ facingMode: 'environment' }, { fps: 10, qrbox: 250 },
+                (decodedText) => {
+                    try {
+                        const data = JSON.parse(decodedText);
+                        if (data.user) {
+                            showToast(`تم التعرف على: ${data.user}`, 'success');
+                            addNotification('مسح باركود', `تم مسح باركود ${data.user}`);
+                        }
+                    } catch (e) {
+                        showToast('تم مسح الباركود: ' + decodedText, 'info');
+                    }
+                    html5QrCode.stop().then(() => {
+                        closeScanner();
+                    });
+                },
+                (error) => { /* ignore scan errors */ }
+            ).catch(err => {
+                showToast('تعذر الوصول للكاميرا', 'error');
+                closeScanner();
+            });
+            // Store for cleanup
+            overlay._scanner = html5QrCode;
+        }
+
+        function closeScanner() {
+            const overlay = document.getElementById('scannerOverlay');
+            if (overlay._scanner) {
+                overlay._scanner.stop().catch(() => {});
+                overlay._scanner = null;
+            }
+            overlay.style.display = 'none';
+            document.getElementById('qr-reader').innerHTML = '';
+        }
+
+        // ==================== CALENDAR ====================
+        function openCalendar() {
+            const modal = document.getElementById('modalContainer');
+            const now = new Date(appState.selectedDate);
+            const month = now.getMonth();
+            const year = now.getFullYear();
+            modal.innerHTML = `
+            <div class="modal-overlay" onclick="closeModal()">
+              <div class="modal-sheet" onclick="event.stopPropagation();">
+                <div class="modal-handle"></div>
+                <div class="modal-header-row">
+                  <h3><i class="fas fa-calendar-alt"></i> اختر التاريخ</h3>
+                  <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+                  <button class="btn-icon-only" onclick="changeCalendarMonth(-1)"><i class="fas fa-chevron-right"></i></button>
+                  <span style="font-weight:700;font-size:16px;" id="calMonthLabel"></span>
+                  <button class="btn-icon-only" onclick="changeCalendarMonth(1)"><i class="fas fa-chevron-left"></i></button>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;" id="calGrid"></div>
+                <button class="btn btn-primary w-100 mt-3" onclick="goToToday()"><i class="fas fa-calendar-day"></i> اليوم</button>
+              </div>
+            </div>
+          `;
+            window._calMonth = month;
+            window._calYear = year;
+            renderCalendarGrid();
+        }
+
+        function renderCalendarGrid() {
+            const month = window._calMonth;
+            const year = window._calYear;
+            const label = document.getElementById('calMonthLabel');
+            const grid = document.getElementById('calGrid');
+            if (!label || !grid) return;
+            const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر',
+                'نوفمبر', 'ديسمبر'
+            ];
+            label.textContent = `${months[month]} ${year}`;
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const todayStr = new Date().toISOString().split('T')[0];
+            let cells = '';
+            // Day names
+            const dayNames = ['ح', 'ن', 'ث', 'ر', 'خ', 'ج', 'س'];
+            dayNames.forEach(d => { cells +=
+                    `<div style="font-weight:700;font-size:11px;color:var(--text-light);padding:4px;">${d}</div>`; });
+            // Empty cells
+            const adjustedFirst = firstDay === 0 ? 6 : firstDay - 1; // Adjust for Arabic week start (Sat)
+            for (let i = 0; i < adjustedFirst; i++) { cells += '<div></div>'; }
+            // Day cells
+            for (let d = 1; d <= daysInMonth; d++) {
+                const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+                const isToday = dateStr === todayStr;
+                const isSelected = dateStr === appState.selectedDate;
+                const hasAttendance = appState.attendance[dateStr] && Object.values(appState.attendance[dateStr])
+                    .some(v => v === 'present');
+                cells += `
+              <div onclick="selectCalendarDate('${dateStr}')" style="
+                padding:8px;cursor:pointer;border-radius:8px;font-size:13px;font-weight:600;
+                ${isSelected?'background:var(--accent-gradient);color:#fff;':''}
+                ${isToday&&!isSelected?'border:2px solid var(--gold);':''}
+                ${hasAttendance&&!isSelected?'background:rgba(26,122,58,0.1);':''}
+                transition:all 0.2s;
+              ">${d}</div>
+            `;
+            }
+            grid.innerHTML = cells;
+        }
+
+        function changeCalendarMonth(delta) {
+            window._calMonth += delta;
+            if (window._calMonth > 11) { window._calMonth = 0;
+                window._calYear++; }
+            if (window._calMonth < 0) { window._calMonth = 11;
+                window._calYear--; }
+            renderCalendarGrid();
+        }
+
+        function selectCalendarDate(dateStr) {
+            appState.selectedDate = dateStr;
+            saveState();
+            closeModal();
+            updateAllUI();
+        }
+
+        function goToToday() {
+            appState.selectedDate = new Date().toISOString().split('T')[0];
+            saveState();
+            closeModal();
+            updateAllUI();
+        }
+
+        function closeCalendar() {
+            closeModal();
+        }
+
+        // ==================== THEME ====================
+        function toggleTheme() {
+            appState.theme = appState.theme === 'dark' ? 'light' : 'dark';
+            saveState();
+            applyTheme();
+            updateAllUI();
+        }
+
+        function applyTheme() {
+            document.body.classList.toggle('dark', appState.theme === 'dark');
+            const moonIcon = document.querySelector('.header-actions .icon-btn:first-child i');
+            if (moonIcon) {
+                moonIcon.className = appState.theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        // ==================== DATA EXPORT/IMPORT ====================
+        function exportData() {
+            const data = JSON.stringify(appState, null, 2);
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `quran-circles-backup-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('تم تصدير البيانات بنجاح', 'success');
+        }
+
+        function importDataPrompt() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    try {
+                        const data = JSON.parse(ev.target.result);
+                        if (data.students && data.rings) {
+                            if (confirm('سيتم استبدال جميع البيانات الحالية. هل أنت متأكد؟')) {
+                                appState = { ...appState, ...data };
+                                saveState();
+                                updateAllUI();
+                                showToast('تم استيراد البيانات بنجاح', 'success');
+                            }
+                        } else {
+                            showToast('ملف غير صالح', 'error');
+                        }
+                    } catch (e) {
+                        showToast('فشل في قراءة الملف', 'error');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        function resetAllData() {
+            if (confirm('تحذير: سيتم مسح جميع البيانات بشكل نهائي! هل أنت متأكد؟')) {
+                if (confirm('تأكيد نهائي: لا يمكن التراجع عن هذا الإجراء!')) {
+                    localStorage.removeItem(APP_KEY);
+                    appState = {
+                        currentUser: appState.currentUser,
+                        role: appState.role,
+                        theme: appState.theme,
+                        selectedDate: new Date().toISOString().split('T')[0],
+                        students: generateDefaultStudents(),
+                        rings: [
+                            { id: 1, name: 'حلقة الفجر', teacher: 'الشيخ أحمد', color: '#b8963e',
+                                time: '05:30 صباحاً' },
+                            { id: 2, name: 'حلقة العصر', teacher: 'الشيخ محمود', color: '#1a7a3a',
+                                time: '04:00 مساءً' },
+                            { id: 3, name: 'حلقة المغرب', teacher: 'الشيخ يوسف', color: '#2980b9',
+                                time: '06:15 مساءً' },
+                            { id: 4, name: 'حلقة العشاء', teacher: 'الشيخ عمر', color: '#8e44ad',
+                                time: '08:00 مساءً' },
+                        ],
+                        attendance: {},
+                        memorization: {},
+                        notifications: [],
+                        calendarEvents: {},
+                    };
+                    appState.students.forEach(s => {
+                        appState.memorization[s.id] = { surah: 'البقرة', fromAyah: 1, toAyah: Math.floor(
+                                Math.random() * 30) + 5, grade: 'جيد', lastUpdate: new Date()
+                                .toISOString().split('T')[0] };
+                    });
+                    saveState();
+                    updateAllUI();
+                    showToast('تم مسح جميع البيانات وإعادة التعيين', 'info');
+                }
+            }
+        }
+
+        // ==================== UPDATE ALL UI ====================
+        function updateAllUI() {
+            updateDateDisplay();
+            updateNotifBadge();
+            const activeSection = document.querySelector('.section.active');
+            if (activeSection) {
+                const sectionId = activeSection.id.replace('sec-', '');
+                renderSection(sectionId);
+            }
+            // Update header stats if on today
+            const today = appState.selectedDate;
+            const dayAtt = appState.attendance[today] || {};
+            const totalStudents = appState.students.filter(s => s.active).length;
+            const presentCount = Object.values(dayAtt).filter(v => v === 'present').length;
+            const absentCount = Object.values(dayAtt).filter(v => v === 'absent').length;
+            const lateCount = Object.values(dayAtt).filter(v => v === 'late').length;
+            const uncheckedCount = totalStudents - presentCount - absentCount - lateCount;
+            const headerStats = document.getElementById('headerStats');
+            if (headerStats) {
+                headerStats.innerHTML = `
+              <div class="stat-chip present"><i class="fas fa-circle"></i> حاضر: ${presentCount}</div>
+              <div class="stat-chip absent"><i class="fas fa-circle"></i> غائب: ${absentCount}</div>
+              <div class="stat-chip" style="color:#f39c12;border-color:rgba(243,156,18,0.3);background:rgba(243,156,18,0.05);"><i class="fas fa-circle"></i> متأخر: ${lateCount}</div>
+            `;
+            }
+        }
+
+        function updateDateDisplay() {
+            const today = new Date(appState.selectedDate);
+            const days = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+            const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر',
+                'نوفمبر', 'ديسمبر'
+            ];
+            const dayName = days[today.getDay()];
+            const day = today.getDate();
+            const month = months[today.getMonth()];
+            const year = today.getFullYear();
+            document.getElementById('dateMain').textContent = `${dayName}، ${day} ${month}`;
+            document.getElementById('gregDate').textContent = `${day} ${month} ${year}م`;
+            // Simple Hijri approximation
+            const hijriYear = year - 579;
+            const hijriMonth = (today.getMonth() + 3) % 12 + 1;
+            const hijriDay = Math.min(day + 5, 29);
+            const hijriMonths = ['محرم', 'صفر', 'ربيع الأول', 'ربيع الآخر', 'جمادى الأولى', 'جمادى الآخرة', 'رجب', 'شعبان',
+                'رمضان', 'شوال', 'ذو القعدة', 'ذو الحجة'
+            ];
+            document.getElementById('hijriDate').textContent =
+                `${hijriDay} ${hijriMonths[hijriMonth-1] || 'محرم'} ${hijriYear}هـ`;
+        }
+
+        // ==================== CLICK OUTSIDE TO CLOSE ====================
+        document.addEventListener('click', function(e) {
+            const panel = document.getElementById('notificationPanel');
+            if (panel.style.display === 'flex' && !panel.contains(e.target) && !e.target.closest(
+                    '.icon-btn[title="الإشعارات"]')) {
+                panel.style.display = 'none';
+            }
+        });
+
+        // ==================== INIT ====================
+        initApp();
+        updateDateDisplay();
+        console.log('🕌 نظام التفقد في مسجد الإمام الشافعي - جاهز للعمل');
+        console.log('   الحلقات القرآنية | أستاذ - موجه | إصدار 2.0');
+        console.log('   الطلاب:', appState.students.filter(s => s.active).length, '| الحلقات:', appState.rings.length);
+    </script>
+</body>
+</html>
